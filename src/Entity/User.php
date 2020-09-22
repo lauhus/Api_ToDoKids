@@ -57,6 +57,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("read:family")
+     * 
      */
     private $avatar;
 
@@ -87,11 +88,13 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Todo::class, mappedBy="user")
+     * @Groups("read:family")
      */
     private $Todo;
 
     /**
      * @ORM\OneToMany(targetEntity=Event::class, mappedBy="user")
+     * @Groups("read:family")
      */
     private $Event;
 
