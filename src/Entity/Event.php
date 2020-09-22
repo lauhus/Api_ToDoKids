@@ -4,9 +4,16 @@ namespace App\Entity;
 
 use App\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read:family"}})
  */
 class Event
 {
@@ -14,31 +21,37 @@ class Event
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("read:family")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("read:family")
      */
     private $nature_event;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("read:family")
      */
     private $date_event;
 
     /**
      * @ORM\Column(type="time")
+     * @Groups("read:family")
      */
     private $start_event;
 
     /**
      * @ORM\Column(type="time")
+     * @Groups("read:family")
      */
     private $end_event;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("read:family")
      */
     private $message_event;
 

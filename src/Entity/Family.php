@@ -6,9 +6,18 @@ use App\Repository\FamilyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=FamilyRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read:family"}})
+ * @ApiFilter(
+ *      SearchFilter::class , properties={"id":"exact","pseudo_family":"exact"})
  */
 class Family
 {
@@ -16,11 +25,13 @@ class Family
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("read:family")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("read:family")
      */
     private $pseudo_family;
 

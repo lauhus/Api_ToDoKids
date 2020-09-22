@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use App\Repository\TodoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TodoRepository::class)
+ * @ApiResource(
+ *     normalizationContext={"groups"={"read:family"}})
  */
 class Todo
 {
@@ -14,26 +19,31 @@ class Todo
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("read:family")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("read:family")
      */
     private $nature_todo;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("read:family")
      */
     private $date_todo;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("read:family")
      */
     private $checked;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("read:family")
      */
     private $message_todo;
 
