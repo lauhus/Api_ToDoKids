@@ -101,6 +101,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
+     * @Groups("read:family")
      */
     private $Message;
 
