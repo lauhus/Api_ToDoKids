@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     normalizationContext={"groups"={"read:family"}})
  * @ApiFilter(
- *      SearchFilter::class , properties={"id":"exact","email":"exact"})
+ *      SearchFilter::class , properties={"id":"exact","email":"exact", "family.id":"exact"})
  */
 class User implements UserInterface
 {
@@ -83,6 +83,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Family::class, inversedBy="users")
+     * @Groups("read:family")
      */
     private $family;
 
@@ -98,10 +99,16 @@ class User implements UserInterface
      */
     private $Event;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
+     */
+    private $Message;
+
     public function __construct()
     {
         $this->Todo = new ArrayCollection();
         $this->Event = new ArrayCollection();
+        $this->Message = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -322,6 +329,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($event->getUser() === $this) {
                 $event->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessage(): Collection
+    {
+        return $this->Message;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->Message->contains($message)) {
+            $this->Message[] = $message;
+            $message->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->Message->contains($message)) {
+            $this->Message->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
             }
         }
 

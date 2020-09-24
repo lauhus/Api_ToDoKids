@@ -8,6 +8,7 @@ use App\Entity\Family;
 use App\Entity\User;
 use App\Entity\Event;
 use App\Entity\Todo;
+use App\Entity\Message;
 
 class AppFixtures extends Fixture
 {
@@ -38,10 +39,10 @@ class AppFixtures extends Fixture
 
         $Todo=new ToDo();
         $Todo->setUser($user);
-        $Todo->setNatureTodo('Tache à faire');
+        $Todo->setNatureTodo('Vider le lave vaisselle');
         $Todo->setDateToDo($d);
         $Todo->setChecked(false);
-        $Todo->setMessageTodo('Ceci est une message');
+        $Todo->setMessageTodo('Sans oublier les couverts');
         $Todo->setCreatedAt($d);
         $Todo->setCreatedBy('Laurine');
         $Todo->setUpdatedAt($d);
@@ -49,20 +50,29 @@ class AppFixtures extends Fixture
 
         $event=new Event();
         $event->setUser($user);
-        $event->setNatureEvent('New event');
+        $event->setNatureEvent('Rendez-vous Dentiste');
         $event->setDateEvent($d);
         $event->setStartEvent($d);
         $event->setEndEvent($d);
-        $event->setMessageEvent('Fixtures.');
+        $event->setMessageEvent('Brosse toi les dents avant.');
         $event->setCreatedAt($d);
         $event->setCreatedBy('Laurine');
         $event->setUpdatedAt($d);
         $event->setUpdatedBy('Laurine');
 
+        $message=new Message();
+        $message->setUser($user);
+        $message->setMessage('J\'ai besoin d\'une paire de chaussette pour le foot');
+        $message->setCreatedAt($d);
+        $message->setCreatedBy('Laurine');
+        $message->setUpdatedAt($d);
+        $message->setUpdatedBy('Laurine');
+
         $manager->persist($family);
         $manager->persist($user);
         $manager->persist($Todo);
         $manager->persist($event);
+        $manager->persist($message);
         }
     $manager->flush();
     }
