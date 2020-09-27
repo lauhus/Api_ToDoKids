@@ -33,12 +33,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("read:family")
+     * @Assert\NotBlank
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
      * @Groups("read:family")
+     * @Assert\NotBlank
      */
     private $roles = [];
 

@@ -53,6 +53,12 @@ class Message
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups("read:family")
+     */
+    private $author;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -126,6 +132,18 @@ class Message
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(string $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

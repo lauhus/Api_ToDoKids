@@ -27,7 +27,7 @@ class AppFixtures extends Fixture
         
         $user=new user();
         $user->setFamily($family);
-        $user->setRoles(['ROLE_PARENT']);
+        $user->setRoles(['ROLE_PARENT','ROLE_USER']);
         $user->setPassword(password_hash('Password'.$i,PASSWORD_DEFAULT));
         $user->setEmail('email'.$i.'@mail.fr');
         $user->setFirstname('prenom');
@@ -63,6 +63,7 @@ class AppFixtures extends Fixture
         $message=new Message();
         $message->setUser($user);
         $message->setMessage('J\'ai besoin d\'une paire de chaussette pour le foot');
+        $message->setAuthor('prenom');
         $message->setCreatedAt($d);
         $message->setCreatedBy('Laurine');
         $message->setUpdatedAt($d);
