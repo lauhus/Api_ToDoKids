@@ -17,6 +17,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
  *     normalizationContext={"groups"={"read:family"}})
+ *      denormalizationContext={"groups"={"user:write"}}
+ *      
  * @ApiFilter(
  *      SearchFilter::class , properties={"id":"exact","email":"exact", "family.id":"exact"})
  */
@@ -32,14 +34,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups("read:family")
+     * @Groups({"read:family","user:write"})
      * @Assert\NotBlank
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups("read:family")
+     * @Groups({"read:family","user:write"})
      * @Assert\NotBlank
      */
     private $roles = [];
@@ -51,14 +53,19 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Groups("user:write")
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("read:family")
+     * @Groups({"read:family","user:write"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("read:family")
+     * @Groups({"read:family","user:write"})
      * 
      */
     private $avatar;
@@ -189,7 +196,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getFirstname(): ?string
@@ -365,6 +372,30 @@ class User implements UserInterface
                 $message->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of plainPassword
+     *
+     * @return  plainPasword
+     */ 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set the value of plainPassword
+     *
+     * @param  plainPasword  $plainPassword
+     *
+     * @return  self
+     */ 
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
